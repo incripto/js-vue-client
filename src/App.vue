@@ -101,7 +101,7 @@
                 try {
                     setTimeout(() => {
                         this.$connect(this.$store.state.ws, { format: 'json' });
-                    }, 5000);
+                    }, 2500);
                 } catch (e) {
                     console.error(e);
                 };
@@ -313,7 +313,6 @@
             reload () {
                 //document.location.reload(true);
                 this.$disconnect();
-                this.$connect(this.$store.state.ws, { format: 'json' });
             }
         },
         components: { Online }

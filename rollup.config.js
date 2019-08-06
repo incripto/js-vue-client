@@ -17,7 +17,7 @@ copy(['assets/**/*'], 'dist/static/', {flatten: true}, (e, f) => {
 });
 
 let copy2replace = new Promise( (resolve) => {
-    copy.each(['src/index.html', 'src/manifest.webmanifest', 'src/robots.txt', 'src/sw.js'], 'dist/', {flatten: true}, (e, f) => {
+    copy.each(['src/favicon.ico', 'src/index.html', 'src/manifest.webmanifest', 'src/robots.txt', 'src/sw.js'], 'dist/', {flatten: true}, (e, f) => {
         if (e) throw e;
         resolve(f);
     });
@@ -25,8 +25,8 @@ let copy2replace = new Promise( (resolve) => {
 
 const options = {
     files: ['dist/index.html', 'dist/manifest.webmanifest', 'dist/robots.txt', 'dist/sw.js'],
-    from: ['I-TITLE-I', 'I-DESCRIPTION-I', 'I-H1-I', 'I-H2-I', 'I-H3-I', 'I-TAGLINE-I', 'I-LINKS-I', 'I-VERSION-I'],
-    to: [process.env.TITLE, process.env.DESCRIPTION, process.env.H1, process.env.H2, process.env.H3, process.env.TAGLINE, process.env.LINKS, process.env.VERSION],
+    from: ['I-TITLE-I', 'I-DESCRIPTION-I', 'I-H1-I', 'I-H2-I', 'I-H3-I', 'I-TAGLINE-I', 'I-LINKS-I', 'I-VERSION-I', 'I-HOST-I'],
+    to: [process.env.TITLE, process.env.DESCRIPTION, process.env.H1, process.env.H2, process.env.H3, process.env.TAGLINE, process.env.LINKS, process.env.VERSION, process.env.HOST],
 };
 
 copy2replace.then( (f) => {

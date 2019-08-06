@@ -1,7 +1,7 @@
 <template>
     <div id="wtf">
         <h1>WTF?</h1>
-        <div class="content">{{ content }}</div>
+        <div class="content" v-html="content"></div>
     </div>
 </template>
 <script>
