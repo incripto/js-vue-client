@@ -5,7 +5,7 @@ import { box, randomBytes } from "tweetnacl";
 const crypt = {
 
     nonce () {
-        return randomBytes(16)
+        return randomBytes(16);
     },
 
     b2h (b) {

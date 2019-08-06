@@ -3,11 +3,44 @@ import vue from 'rollup-plugin-vue';
 import commonjs from 'rollup-plugin-commonjs';
 import replace from 'rollup-plugin-replace';
 import less from 'rollup-plugin-less';
-import replaceHtmlVars from 'rollup-plugin-replace-html-vars';
-import copy from 'rollup-plugin-copy';
+import copy from 'copy';
 import * as dotenv from 'dotenv-flow';
+import * as fileReplace from 'replace-in-file';
 
 dotenv.config();
+
+copy(['assets/**/*'], 'dist/static/', {flatten: true}, (e, f) => {
+    if (e) throw e;
+    f.forEach( (f) => {
+        console.log(`Copying to ${f.relative}`);
+    });
+});
+
+let copy2replace = new Promise( (resolve) => {
+    copy.each(['src/index.html', 'src/manifest.webmanifest', 'src/robots.txt', 'src/sw.js'], 'dist/', {flatten: true}, (e, f) => {
+        if (e) throw e;
+        resolve(f);
+    });
+});
+
+const options = {
+    files: ['dist/index.html', 'dist/manifest.webmanifest', 'dist/robots.txt', 'dist/sw.js'],
+    from: ['I-TITLE-I', 'I-DESCRIPTION-I', 'I-H1-I', 'I-H2-I', 'I-H3-I', 'I-TAGLINE-I', 'I-LINKS-I', 'I-VERSION-I'],
+    to: [process.env.TITLE, process.env.DESCRIPTION, process.env.H1, process.env.H2, process.env.H3, process.env.TAGLINE, process.env.LINKS, process.env.VERSION],
+};
+
+copy2replace.then( (f) => {
+    f.forEach( (f) => {
+        console.log(`Copying to ${f.relative}`);
+    });
+    try {
+        const results = fileReplace.sync(options);
+        console.log('Replacement results:', results);
+    }
+    catch (e) {
+        console.error('Error occurred:', e);
+    }
+});
 
 const plugins = [
     less({
@@ -27,11 +60,6 @@ const plugins = [
           'idb': ['openDB']
         }
     }),
-    replaceHtmlVars({
-        files: ['src/index.html', 'src/manifest.webmanifest'],
-        from: ['I-TITLE-I', 'I-DESCRIPTION-I', 'I-H1-I', 'I-H2-I', 'I-H3-I', 'I-TAGLINE-I', 'I-LINKS-I'],
-        to: [process.env.TITLE, process.env.DESCRIPTION, process.env.H1, process.env.H2, process.env.H3, process.env.TAGLINE, process.env.LINKS],
-    }),
     replace({
         'process.env.NODE_ENV': JSON.stringify(process.env.MODE),
         'process.env.DEBUG_MODE': process.env.TITLE,
@@ -43,13 +71,7 @@ const plugins = [
         'I-TAGLINE-I': process.env.TAGLINE,
         'I-LINKS-I': process.env.LINKS,
         'I-WTF-I': process.env.WTF
-    }),
-    copy({
-        targets: [
-          { src: ['src/index.html', 'src/manifest.webmanifest', 'src/robots.txt', 'src/sw.js'], dest: 'dist/'},
-          { src: 'assets/**/*', dest: 'dist/static/' }
-        ]
-      })
+    })
 ];
 
 let config = {

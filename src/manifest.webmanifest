@@ -1,10 +1,10 @@
 {
     "background_color": "black",
     "theme_color": "#000000",
-    "description": "Peer 2 Peer Crypto Instant Messanger",
+    "description": "I-DESCRIPTION-I",
     "display": "standalone",
-    "name": "iYZoZ.com ::: crypto tunnel",
-    "short_name": "incripto_0.2",
+    "name": "I-H1-I",
+    "short_name": "I-H2-I",
     "start_url": "/",
     "orientation": "portrait",
     "icons": [{

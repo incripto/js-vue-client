@@ -65,6 +65,15 @@ syncyarnlock -s -k // updates package.json with versions installed from yarn.loc
 yarn install // updates yarn.lock with current version constraint from package.json
 
 */
+`
+copyfiles(['assets/**/*', 'dist/static/'], {
+    up: true,
+    verbose: true,
+    flat: true
+}, (e) => {
+    if (e) throw e;
+});
+`
 
 out = {
 	m: 'get',

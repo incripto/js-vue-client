@@ -12,8 +12,6 @@
             <p>{{ status }}</p>
             <h6>public addres:</h6>
             <p>{{ addr }} <a v-bind:href="userurl"><i class="material-icons">link</i></a></p>
-            <h6>sing public:</h6>
-            <p>{{ pub }}</p>
         </div>
     </div>
 </template>
@@ -45,9 +43,6 @@
             addr () {
                 return this.$store.state.addr;
             },
-            pub () {
-                return this.$store.state.pub;
-            },
             userurl () {
                 return this.$store.state.srv + 'user/' + this.$store.state.addr;
             }
@@ -62,12 +57,12 @@
                 let p = e.target.value;
                 this.$store.state.priv = p;
                 this.$db.set('settings', 'priv', p);
-                [this.$store.state.pub, this.$store.state.sec, this.$store.state.addr] = await this.$crypt.recKeys(p);
+                this.$store.state.addr = await this.$crypt.recKeys(p);
             },
             async gen () {
                 this.$store.state.priv = this.$crypt.genKey();
                 this.$db.set('settings', 'priv', this.$store.state.priv);
-                [this.$store.state.pub, this.$store.state.sec, this.$store.state.addr] = await this.$crypt.recKeys(this.$store.state.priv);
+                this.$store.state.addr = await this.$crypt.recKeys(this.$store.state.priv);
             }
         }
     };

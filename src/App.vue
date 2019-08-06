@@ -183,7 +183,7 @@
                         let m = pack.data;
                         let n = pack.nonce;
                         let s = pack.snd;
-                        let r = this.$store.state.sec;
+                        let r = this.$store.state.priv;
 
                         let txt;
                         try {
@@ -311,7 +311,9 @@
                 window.scrollTo(0, 999999);
             },
             reload () {
-                document.location.reload(true);
+                //document.location.reload(true);
+                this.$disconnect();
+                this.$connect(this.$store.state.ws, { format: 'json' });
             }
         },
         components: { Online }

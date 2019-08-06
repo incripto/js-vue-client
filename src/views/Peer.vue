@@ -43,7 +43,7 @@
                         this.$store.state.addr,
                         this.msg,
                         this.$store.state.rec,
-                        this.$store.state.sec
+                        this.$store.state.priv
                     );
 
                     let date = new Date();
