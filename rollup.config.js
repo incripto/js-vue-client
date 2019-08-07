@@ -6,6 +6,8 @@ import less from 'rollup-plugin-less';
 import copy from 'copy';
 import * as dotenv from 'dotenv-flow';
 import * as fileReplace from 'replace-in-file';
+import { terser } from "rollup-plugin-terser";
+import progress from 'rollup-plugin-progress';
 
 dotenv.config();
 
@@ -71,6 +73,9 @@ const plugins = [
         'I-TAGLINE-I': process.env.TAGLINE,
         'I-LINKS-I': process.env.LINKS,
         'I-WTF-I': process.env.WTF
+    }),
+    progress({
+        clearLine: false // default: true
     })
 ];
 
@@ -78,10 +83,10 @@ let config = {
     input: 'src/index.js',
         output: {
         file: 'dist/index.js',
-        format: 'esm',
+        format: 'es',
         //format: 'iife',
         sourcemap: true
-    }, 
+    },
     watch: {
         include: 'src/**'
     },
@@ -91,6 +96,10 @@ let config = {
 
 if (process.env.MODE == 'production') {
     config.output.sourcemap = false;
+    config.plugins.push(terser({
+        compress: true,
+        ecma: 8
+    }));
 };
 
 export default config;
