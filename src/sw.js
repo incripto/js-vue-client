@@ -1,4 +1,4 @@
-let v = 'v' + 'I-VERSION-I';
+let v = 'v' + '0.2.1';
 
 self.addEventListener('install', e => {
     console.log(v + ' installing…');

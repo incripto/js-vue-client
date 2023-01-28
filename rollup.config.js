@@ -5,7 +5,6 @@ import replace from 'rollup-plugin-replace';
 import less from 'rollup-plugin-less';
 import copy from 'copy';
 import * as dotenv from 'dotenv-flow';
-import * as fileReplace from 'replace-in-file';
 import { terser } from "rollup-plugin-terser";
 import progress from 'rollup-plugin-progress';
 
@@ -25,23 +24,10 @@ let copy2replace = new Promise( (resolve) => {
     });
 });
 
-const options = {
-    files: ['dist/index.html', 'dist/manifest.webmanifest', 'dist/robots.txt', 'dist/sw.js'],
-    from: ['I-TITLE-I', 'I-DESCRIPTION-I', 'I-H1-I', 'I-H2-I', 'I-H3-I', 'I-TAGLINE-I', 'I-LINKS-I', 'I-VERSION-I', 'I-HOST-I'],
-    to: [process.env.TITLE, process.env.DESCRIPTION, process.env.H1, process.env.H2, process.env.H3, process.env.TAGLINE, process.env.LINKS, process.env.VERSION, process.env.HOST],
-};
-
 copy2replace.then( (f) => {
     f.forEach( (f) => {
         console.log(`Copying to ${f.relative}`);
     });
-    try {
-        const results = fileReplace.sync(options);
-        console.log('Replacement results:', results);
-    }
-    catch (e) {
-        console.error('Error occurred:', e);
-    }
 });
 
 const plugins = [
